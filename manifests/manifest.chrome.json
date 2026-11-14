@@ -1,0 +1,14 @@
+{
+  "minimum_chrome_version": "116",
+  "side_panel": {
+    "default_path": "sidebar.html"
+  },
+  "permissions": [
+    "storage",
+    "unlimitedStorage",
+    "sidePanel",
+    "activeTab",
+    "tabs",
+    "clipboardWrite"
+  ]
+}

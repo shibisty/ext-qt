@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QR Studio</title>
+<link rel="stylesheet" href="css/app.css"></head>
+<body data-view="popup">
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm9-2h2v2h-2zm4 0h3v2h-3zm-4 4h3v2h-3zm5 1h2v2h-2z"/></svg><span>QR Studio</span></div>
+  <nav class="tabs"><button data-tab="gen" data-i18n="tabGen"></button><button data-tab="scan" data-i18n="tabScan"></button></nav>
+  <div class="tools">
+    <span class="views">
+      <button class="ib" data-goto="popup" data-i18n-title="viewPopup"><svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><rect x="11" y="7" width="7" height="6" rx="1"/></svg></button>
+      <button class="ib" data-goto="sidebar" data-i18n-title="viewSidebar"><svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M14.5 4.5v15"/></svg></button>
+      <button class="ib" data-goto="page" data-i18n-title="viewPage"><svg viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9h17"/></svg></button>
+    </span>
+    <button class="ib" id="btnTheme">◐</button>
+    <button class="ib" id="btnLang">EN</button>
+  </div>
+</header>
+<main>
+<section class="pane" id="tab-gen"><div class="gen-layout">
+  <div class="preview-col">
+    <div class="preview" id="preview"></div>
+    <div class="meta" id="meta"></div>
+    <div class="actions">
+      <button class="btn pri" id="dlPng" data-i18n="dlPng"></button>
+      <button class="btn" id="dlSvg" data-i18n="dlSvg"></button>
+      <button class="btn" id="cpImg" data-i18n="copyImg"></button>
+      <select id="outSize" data-bind="outSize" data-num><option>512</option><option>1024</option><option>2048</option><option>4096</option></select>
+    </div>
+  </div>
+  <div class="controls-col">
+    <div class="card2" style="margin:0">
+      <label class="f"><span data-i18n="content"></span><textarea id="text" data-bind="text" data-i18n-ph="contentPh" spellcheck="false"></textarea></label>
+      <div class="row" style="margin-top:6px"><button class="btn" id="useTab" data-i18n="useTab"></button></div>
+    </div>
+    <details class="card" open><summary data-i18n="presets"></summary><div class="body"><div class="grid presets" id="presets"></div></div></details>
+    <details class="card"><summary data-i18n="secDots"></summary><div class="body">
+      <div class="lbl"><span data-i18n="pattern"></span><div class="grid" data-grid="style.pattern"></div></div>
+      <label class="f"><span data-i18n="spacing"></span><input type="range" min="0" max="0.4" step="0.02" data-bind="style.gap"></label>
+      <div class="lbl"><span data-i18n="dotsFill"></span><div data-fill="style.data" data-types="solid,gradient,image"></div></div>
+    </div></details>
+    <details class="card"><summary data-i18n="secCorners"></summary><div class="body">
+      <div class="lbl"><span data-i18n="cornerOuter"></span><div class="grid" data-grid="style.outer"></div></div>
+      <div class="lbl"><span data-i18n="cornerInner"></span><div class="grid" data-grid="style.inner"></div></div>
+      <div class="lbl"><span data-i18n="cOuterFill"></span><div data-fill="style.cOuter" data-types="inherit,solid,gradient,image"></div></div>
+      <div class="lbl"><span data-i18n="cInnerFill"></span><div data-fill="style.cInner" data-types="inherit,solid,gradient,image"></div></div>
+    </div></details>
+    <details class="card"><summary data-i18n="secLogo"></summary><div class="body">
+      <div class="row"><label class="btn"><span data-i18n="logoUpload"></span><input type="file" accept="image/*" hidden data-file="style.logo.img"></label>
+        <img class="thumb" data-src="style.logo.img"><button class="btn ghost" data-clear="style.logo.img" data-showif="style.logo.img=*" data-i18n="logoRemove"></button></div>
+      <div class="body" style="padding:0" data-showif="style.logo.img=*">
+        <label class="f"><span data-i18n="logoSize"></span><input type="range" min="0.1" max="0.32" step="0.01" data-bind="style.logo.size"></label>
+        <label class="f"><span data-i18n="logoMargin"></span><input type="range" min="0" max="2" step="0.1" data-bind="style.logo.margin"></label>
+        <label class="f"><span data-i18n="logoShape"></span><select data-bind="style.logo.shape"><option value="square" data-i18n="shape_square"></option><option value="rounded" data-i18n="shape_rounded"></option><option value="circle" data-i18n="shape_circle"></option></select></label>
+        <label class="chk"><input type="checkbox" data-bind="style.logo.clear"><span data-i18n="logoClear"></span></label>
+        <div class="row"><label class="chk"><input type="checkbox" data-bind="style.logo.back"><span data-i18n="logoBack"></span></label><input type="color" data-bind="style.logo.backColor"></div>
+        <div class="hint" data-i18n="eclHint"></div>
+      </div>
+    </div></details>
+    <details class="card"><summary data-i18n="secBg"></summary><div class="body">
+      <div class="lbl"><span data-i18n="bgFill"></span><div data-fill="style.bg" data-types="none,solid,gradient,image"></div></div>
+      <label class="f"><span data-i18n="bgRadius"></span><input type="range" min="0" max="6" step="0.25" data-bind="style.bgRadius"></label>
+    </div></details>
+    <details class="card"><summary data-i18n="secFrame"></summary><div class="body">
+      <select data-bind="style.frame.style"><option value="none" data-i18n="frame_none"></option><option value="border" data-i18n="frame_border"></option><option value="rounded" data-i18n="frame_rounded"></option><option value="bottom" data-i18n="frame_bottom"></option><option value="top" data-i18n="frame_top"></option><option value="bubble" data-i18n="frame_bubble"></option></select>
+      <div class="body" style="padding:0" data-showif="style.frame.style=border|rounded|bottom|top|bubble">
+        <div class="row"><span class="lbl" data-i18n="frameColor"></span><input type="color" data-bind="style.frame.color"></div>
+        <label class="f"><span data-i18n="frameWidth"></span><input type="range" min="0.5" max="4" step="0.1" data-bind="style.frame.width"></label>
+      </div>
+      <div class="body" style="padding:0" data-showif="style.frame.style=bottom|top|bubble">
+        <label class="f"><span data-i18n="frameText"></span><input type="text" data-bind="style.frame.text" maxlength="40"></label>
+        <div class="row"><span class="lbl" data-i18n="frameTextColor"></span><input type="color" data-bind="style.frame.textColor"></div>
+      </div>
+      <div class="lbl"><span data-i18n="customFrame"></span>
+        <div class="row"><label class="btn"><span data-i18n="upload"></span><input type="file" accept="image/*" hidden data-file="style.frame.customImg"></label><img class="thumb" data-src="style.frame.customImg"><button class="btn ghost" data-clear="style.frame.customImg">✕</button></div></div>
+      <label class="f" data-showif="style.frame.customImg=*"><span data-i18n="customPad"></span><input type="range" min="0" max="10" step="0.5" data-bind="style.frame.customPad"></label>
+    </div></details>
+    <details class="card"><summary data-i18n="secAdv"></summary><div class="body">
+      <label class="f"><span data-i18n="ecl"></span><select data-bind="ecl"><option value="L">L · 7%</option><option value="M">M · 15%</option><option value="Q">Q · 25%</option><option value="H">H · 30%</option></select></label>
+      <label class="f"><span data-i18n="quiet"></span><input type="range" min="0" max="8" step="1" data-bind="style.quiet"></label>
+    </div></details>
+  </div>
+</div></section>
+
+<section class="pane" id="tab-scan">
+  <div class="scanbar">
+    <button class="btn pri" id="camBtn" data-i18n="scanCamera"></button>
+    <label class="btn"><span data-i18n="scanImage"></span><input type="file" accept="image/*" id="imgFile" hidden></label>
+    <button class="btn" id="tabBtn" data-i18n="scanTab"></button>
+  </div>
+  <div class="cambox" id="camBox" hidden><video id="video" playsinline muted></video><div class="aim"></div></div>
+  <div class="row" id="camRow" hidden style="margin-top:6px"><select id="camSel" style="flex:1"></select><button class="btn" id="camStop" data-i18n="scanStop"></button></div>
+  <div class="drop" id="drop" data-i18n="scanDrop"></div>
+  <div id="scanMsg"></div>
+  <div id="scanRes"></div>
+  <div id="scanHist"></div>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script type="module" src="./app/main.ts"></script>
+</body></html>
